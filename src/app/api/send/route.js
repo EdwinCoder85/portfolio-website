@@ -5,8 +5,14 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = process.env.FROM_EMAIL;
 
 export async function POST(req, res) {
-  const { email, subject, message } = await req.json();
-  console.log(email, subject, message);
+  // Attempt to parse JSON data from the request
+  const requestData = await req.json();
+
+  // Log the received data for debugging
+  console.log("Received data:", requestData);
+
+  // Destructure the required fields from the parsed JSON data
+  const { email, subject, message } = requestData;
   try {
     const data = await resend.emails.send({
       from: fromEmail,
